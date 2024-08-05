@@ -1,0 +1,2 @@
+# AnimeStore
+ Projeto anime store
