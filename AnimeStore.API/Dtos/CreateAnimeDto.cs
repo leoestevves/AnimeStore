@@ -1,8 +1,7 @@
 ﻿namespace AnimeStore.API.Dtos;
 
-public record class AnimeDto
+public record class CreateAnimeDto
 (
-    int Id,
     string Name,
     string Genre,
     int NumberEpisodes,

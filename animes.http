@@ -2,3 +2,14 @@ GET http://localhost:5128/animes
 
 ###
 GET http://localhost:5128/animes/1
+
+###
+POST http://localhost:5128/animes
+Content-Type: application/json
+
+{
+    "name": "Oshi no Ko",
+    "genre": "Drama",
+    "numberEpisodes": 11,
+    "releaseDate": "2023-04-12"
+}

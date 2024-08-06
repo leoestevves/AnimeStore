@@ -3,6 +3,8 @@ using AnimeStore.API.Dtos;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
+const string GET_ANIME_ENDPOINT_NAME = "GetAnime";
+
 List<AnimeDto> animes =
 [
     new(
@@ -32,8 +34,23 @@ List<AnimeDto> animes =
 app.MapGet("animes", () => animes);
 
 //GET /animes/1
-app.MapGet("animes/{id}", (int id) => animes.Find(anime => anime.Id == id));
+app.MapGet("animes/{id}", (int id) => animes.Find(anime => anime.Id == id)).WithName(GET_ANIME_ENDPOINT_NAME);
 
+//POST /animes
+app.MapPost("animes", (CreateAnimeDto newAnime) =>
+{
+    AnimeDto anime = new(
+        animes.Count + 1,
+        newAnime.Name,
+        newAnime.Genre,
+        newAnime.NumberEpisodes,
+        newAnime.ReleaseDate
+    );
+
+    animes.Add(anime); //Adicionando o elemento novo na lista
+
+    return Results.CreatedAtRoute(GET_ANIME_ENDPOINT_NAME, new {id = anime.Id}, anime);
+});
 
 
 app.Run();
