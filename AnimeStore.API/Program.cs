@@ -30,13 +30,13 @@ List<AnimeDto> animes =
     )
 ];
 
-//GET /animes
+//Read  GET /animes
 app.MapGet("animes", () => animes);
 
-//GET /animes/1
+//ReadById  GET /animes/1
 app.MapGet("animes/{id}", (int id) => animes.Find(anime => anime.Id == id)).WithName(GET_ANIME_ENDPOINT_NAME);
 
-//POST /animes
+//Create  POST /animes
 app.MapPost("animes", (CreateAnimeDto newAnime) =>
 {
     AnimeDto anime = new(
@@ -49,8 +49,23 @@ app.MapPost("animes", (CreateAnimeDto newAnime) =>
 
     animes.Add(anime); //Adicionando o elemento novo na lista
 
-    return Results.CreatedAtRoute(GET_ANIME_ENDPOINT_NAME, new {id = anime.Id}, anime);
+    return Results.CreatedAtRoute(GET_ANIME_ENDPOINT_NAME, new {id = anime.Id}, anime); //Mostra onde foi criado
 });
 
+//Update  PATCH /animes/1
+app.MapPatch("animes/{id}", (int id, UpdateAnimeDto updatedAnime ) => 
+{
+    var index = animes.FindIndex(anime => anime.Id == id);
+    
+    animes[index] = new AnimeDto(
+        id,
+        updatedAnime.Name,
+        updatedAnime.Genre,
+        updatedAnime.NumberEpisodes,
+        updatedAnime.ReleaseDate
+    );
+
+    return Results.NoContent();
+});
 
 app.Run();

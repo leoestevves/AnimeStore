@@ -13,3 +13,14 @@ Content-Type: application/json
     "numberEpisodes": 11,
     "releaseDate": "2023-04-12"
 }
+
+###
+PATCH http://localhost:5128/animes/4
+Content-Type: application/json
+
+{
+    "name": "Oshi no Ko II",
+    "genre": "Drama",
+    "numberEpisodes": 11,
+    "releaseDate": "2023-04-12"
+}
