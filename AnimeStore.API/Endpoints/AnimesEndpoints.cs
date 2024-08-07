@@ -33,7 +33,8 @@ public static class AnimesEndpoints
 
     public static RouteGroupBuilder MapAnimesEndpoints(this WebApplication app) //Metodo de extensao do webapplication
     {                                                                           //Quando mudei para group, mudei de WebApplication para RouteGroupBuilder
-        var group = app.MapGroup("animes");
+        var group = app.MapGroup("animes")
+                       .WithParameterValidation(); //Ativando as validacoes dos contratos (DTOs)
 
         //Read  GET /animes
         group.MapGet("/", () => animes);
