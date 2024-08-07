@@ -44,7 +44,7 @@ app.MapGet("animes/{id}", (int id) =>
     } 
     else 
     {
-        return Results.Ok();
+        return Results.Ok(anime);
     }
 })
 .WithName(GET_ANIME_ENDPOINT_NAME);
