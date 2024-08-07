@@ -31,13 +31,15 @@ public static class AnimesEndpoints
         )
     ];
 
-    public static WebApplication MapAnimesEndpoints(this WebApplication app) //Metodo de extensao do webapplication
-    {
+    public static RouteGroupBuilder MapAnimesEndpoints(this WebApplication app) //Metodo de extensao do webapplication
+    {                                                                           //Quando mudei para group, mudei de WebApplication para RouteGroupBuilder
+        var group = app.MapGroup("animes");
+
         //Read  GET /animes
-        app.MapGet("animes", () => animes);
+        group.MapGet("/", () => animes);
 
         //ReadById  GET /animes/1
-        app.MapGet("animes/{id}", (int id) => 
+        group.MapGet("/{id}", (int id) => 
         {
             var anime = animes.Find(anime => anime.Id == id);
 
@@ -53,7 +55,7 @@ public static class AnimesEndpoints
         .WithName(GET_ANIME_ENDPOINT_NAME);
 
         //Create  POST /animes
-        app.MapPost("animes", (CreateAnimeDto newAnime) =>
+        group.MapPost("/", (CreateAnimeDto newAnime) =>
         {
             AnimeDto anime = new
             (
@@ -70,7 +72,7 @@ public static class AnimesEndpoints
         });
 
         //Update  PATCH /animes/1
-        app.MapPatch("animes/{id}", (int id, UpdateAnimeDto updatedAnime) => 
+        group.MapPatch("/{id}", (int id, UpdateAnimeDto updatedAnime) => 
         {    
             var index = animes.FindIndex(anime => anime.Id == id); 
 
@@ -93,14 +95,14 @@ public static class AnimesEndpoints
         });
 
         //Delete  DELETE /animes/1
-        app.MapDelete("animes/{id}", (int id) => 
+        group.MapDelete("/{id}", (int id) => 
         {
             animes.RemoveAll(anime => anime.Id == id);
 
             return Results.NoContent();
         });
 
-        return app;
+        return group;
     }
 
 }

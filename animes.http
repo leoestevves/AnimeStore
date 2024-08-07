@@ -26,4 +26,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5128/animes/2
+DELETE http://localhost:5128/animes/4
