@@ -34,7 +34,20 @@ List<AnimeDto> animes =
 app.MapGet("animes", () => animes);
 
 //ReadById  GET /animes/1
-app.MapGet("animes/{id}", (int id) => animes.Find(anime => anime.Id == id)).WithName(GET_ANIME_ENDPOINT_NAME);
+app.MapGet("animes/{id}", (int id) => 
+{
+    var anime = animes.Find(anime => anime.Id == id);
+
+    if (anime == null)
+    {
+        return Results.NotFound();
+    } 
+    else 
+    {
+        return Results.Ok();
+    }
+})
+.WithName(GET_ANIME_ENDPOINT_NAME);
 
 //Create  POST /animes
 app.MapPost("animes", (CreateAnimeDto newAnime) =>
@@ -53,9 +66,15 @@ app.MapPost("animes", (CreateAnimeDto newAnime) =>
 });
 
 //Update  PATCH /animes/1
-app.MapPatch("animes/{id}", (int id, UpdateAnimeDto updatedAnime ) => 
-{
-    var index = animes.FindIndex(anime => anime.Id == id);
+app.MapPatch("animes/{id}", (int id, UpdateAnimeDto updatedAnime) => 
+{    
+    var index = animes.FindIndex(anime => anime.Id == id); 
+
+    //Quando nao acha o FindIndex retorna um -1, por isso utilizo if index == -1 para tratar o erro
+    if (index == -1)
+    {
+        return Results.NotFound();
+    } 
     
     animes[index] = new AnimeDto(
         id,
@@ -67,5 +86,14 @@ app.MapPatch("animes/{id}", (int id, UpdateAnimeDto updatedAnime ) =>
 
     return Results.NoContent();
 });
+
+//Delete  DELETE /animes/1
+app.MapDelete("animes/{id}", (int id) => 
+{
+    animes.RemoveAll(anime => anime.Id == id);
+
+    return Results.NoContent();
+});
+
 
 app.Run();

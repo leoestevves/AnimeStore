@@ -1,7 +1,7 @@
 GET http://localhost:5128/animes
 
 ###
-GET http://localhost:5128/animes/1
+GET http://localhost:5128/animes/4
 
 ###
 POST http://localhost:5128/animes
@@ -24,3 +24,6 @@ Content-Type: application/json
     "numberEpisodes": 11,
     "releaseDate": "2023-04-12"
 }
+
+###
+DELETE http://localhost:5128/animes/2
