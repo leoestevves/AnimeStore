@@ -10,4 +10,6 @@ var app = builder.Build();
 
 app.MapAnimesEndpoints();
 
+app.MigrateDb();
+
 app.Run();
