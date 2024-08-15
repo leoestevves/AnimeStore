@@ -3,6 +3,7 @@ using System;
 using AnimeStore.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnimeStore.API.Data.Migrations
 {
     [DbContext(typeof(AnimeStoreContext))]
-    partial class AnimeStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240815154007_SeedGenres")]
+    partial class SeedGenres
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
