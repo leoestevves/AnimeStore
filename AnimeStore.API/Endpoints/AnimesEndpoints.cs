@@ -1,4 +1,7 @@
-﻿using AnimeStore.API.Dtos;
+﻿using AnimeStore.API.Data;
+using AnimeStore.API.Dtos;
+using AnimeStore.API.Entities;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace AnimeStore.API.Endpoints;
 
@@ -56,20 +59,30 @@ public static class AnimesEndpoints
         .WithName(GET_ANIME_ENDPOINT_NAME);
 
         //Create  POST /animes
-        group.MapPost("/", (CreateAnimeDto newAnime) =>
+        group.MapPost("/", (CreateAnimeDto newAnime, AnimeStoreContext dbContext) =>
         {
-            AnimeDto anime = new
+            AnimeEntity anime = new()
+            {
+                Name = newAnime.Name,
+                Genre = dbContext.Genres.Find(newAnime.GenreId),
+                GenreId = newAnime.GenreId,
+                NumberEpisodes = newAnime.NumberEpisodes,
+                ReleaseDate = newAnime.ReleaseDate
+            };          
+
+            AnimeDto animeDto = new
             (
-                animes.Count + 1,
-                newAnime.Name,
-                newAnime.Genre,
-                newAnime.NumberEpisodes,
-                newAnime.ReleaseDate
+                anime.Id,
+                anime.Name,
+                anime.Genre!.Name,
+                anime.NumberEpisodes,
+                anime.ReleaseDate
             );
 
-            animes.Add(anime); //Adicionando o elemento novo na lista
+            dbContext.Animes.Add(anime); //Adicionando o elemento novo no banco
+            dbContext.SaveChanges();
 
-            return Results.CreatedAtRoute(GET_ANIME_ENDPOINT_NAME, new {id = anime.Id}, anime); //Mostra onde foi criado
+            return Results.CreatedAtRoute(GET_ANIME_ENDPOINT_NAME, new {id = anime.Id}, animeDto); //Mostra onde foi criado
         });
 
         //Update  PATCH /animes/1

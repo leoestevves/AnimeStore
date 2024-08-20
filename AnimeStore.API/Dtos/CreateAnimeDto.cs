@@ -5,7 +5,7 @@ namespace AnimeStore.API.Dtos;
 public record class CreateAnimeDto
 (    
     [Required][StringLength(50)] string Name,
-    [Required][StringLength(50)] string Genre,
+    int GenreId,
     [Required][Range(1, 2000)] int NumberEpisodes,
     DateOnly ReleaseDate
 );
